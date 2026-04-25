@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Student Ledger List -->
+        <record id="view_school_student_ledger_list" model="ir.ui.view">
+            <field name="name">school.student.ledger.list</field>
+            <field name="model">school.student.ledger</field>
+            <field name="arch" type="xml">
+                <list string="Student Ledger"
+                      decoration-danger="type == 'invoice'"
+                      decoration-success="type == 'payment'">
+                    <field name="date"/>
+                    <field name="student_id"/>
+                    <field name="class_id" optional="show"/>
+                    <field name="description"/>
+                    <field name="type" widget="badge"
+                           decoration-danger="type == 'invoice'"
+                           decoration-success="type == 'payment'"
+                           decoration-warning="type == 'concession'"/>
+                    <field name="debit" sum="Total Debit"/>
+                    <field name="credit" sum="Total Credit"/>
+                    <field name="reference" optional="hide"/>
+                    <field name="academic_year" optional="hide"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- Student Ledger Search -->
+        <record id="view_school_student_ledger_search" model="ir.ui.view">
+            <field name="name">school.student.ledger.search</field>
+            <field name="model">school.student.ledger</field>
+            <field name="arch" type="xml">
+                <search string="Search Ledger">
+                    <field name="student_id"/>
+                    <field name="class_id"/>
+                    <field name="description"/>
+                    <field name="reference"/>
+                    <filter string="Invoices" name="invoices" domain="[('type','=','invoice')]"/>
+                    <filter string="Payments" name="payments" domain="[('type','=','payment')]"/>
+                    <filter string="Student" name="by_student" context="{'group_by':'student_id'}"/>
+                    <filter string="Class" name="by_class" context="{'group_by':'class_id'}"/>
+                    <filter string="Type" name="by_type" context="{'group_by':'type'}"/>
+                    <filter string="Month" name="by_month" context="{'group_by':'date:month'}"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_school_student_ledger" model="ir.actions.act_window">
+            <field name="name">Student Ledger</field>
+            <field name="res_model">school.student.ledger</field>
+            <field name="view_mode">list</field>
+            <field name="search_view_id" ref="view_school_student_ledger_search"/>
+        </record>
+    </data>
+</odoo>

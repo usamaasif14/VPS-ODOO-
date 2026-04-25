@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_school_subject_list" model="ir.ui.view">
+            <field name="name">school.subject.list</field>
+            <field name="model">school.subject</field>
+            <field name="arch" type="xml">
+                <list string="Subjects">
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="subject_type"/>
+                    <field name="credit_hours"/>
+                    <field name="total_marks"/>
+                    <field name="pass_marks"/>
+                    <field name="active"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_school_subject_form" model="ir.ui.view">
+            <field name="name">school.subject.form</field>
+            <field name="model">school.subject</field>
+            <field name="arch" type="xml">
+                <form string="Subject">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="code"/>
+                                <field name="subject_type"/>
+                                <field name="credit_hours"/>
+                                <field name="active"/>
+                            </group>
+                            <group>
+                                <field name="total_marks"/>
+                                <field name="pass_marks"/>
+                                <field name="color" widget="color_picker"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Teachers">
+                                <field name="teacher_ids">
+                                    <list>
+                                        <field name="name"/>
+                                        <field name="employee_code"/>
+                                        <field name="designation"/>
+                                        <field name="mobile"/>
+                                    </list>
+                                </field>
+                            </page>
+                            <page string="Classes">
+                                <field name="class_ids" widget="many2many_tags"/>
+                            </page>
+                            <page string="Description">
+                                <field name="description"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_school_subject" model="ir.actions.act_window">
+            <field name="name">Subjects</field>
+            <field name="res_model">school.subject</field>
+            <field name="view_mode">list,form</field>
+        </record>
+    </data>
+</odoo>

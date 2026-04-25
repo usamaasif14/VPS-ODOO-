@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_student_ledger_doc">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h3 class="text-center mb-4">Student Individual Ledger</h3>
+                        <div class="row mb-3">
+                            <div class="col-6">
+                                <strong>Student Name:</strong> <span t-field="o.name"/><br/>
+                                <strong>Roll Number:</strong> <span t-field="o.roll_number"/><br/>
+                            </div>
+                            <div class="col-6 text-end">
+                                <strong>Class:</strong> <span t-field="o.class_id.name"/><br/>
+                                <strong>Section:</strong> <span t-field="o.section_id.name"/><br/>
+                                <strong>Print Date:</strong> <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d')"/>
+                            </div>
+                        </div>
+
+                        <t t-set="ledger_records" t-value="env['school.student.ledger'].search([('student_id', '=', o.id)], order='date asc, id asc')"/>
+                        
+                        <table class="table table-sm table-bordered mt-3">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Description</th>
+                                    <th>Ref</th>
+                                    <th class="text-end">Debit (Dr)</th>
+                                    <th class="text-end">Credit (Cr)</th>
+                                    <th class="text-end">Balance</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-set="running_bal" t-value="0.0"/>
+                                <t t-set="total_dr" t-value="0.0"/>
+                                <t t-set="total_cr" t-value="0.0"/>
+                                <t t-foreach="ledger_records" t-as="line">
+                                    <t t-set="running_bal" t-value="running_bal + line.debit - line.credit"/>
+                                    <t t-set="total_dr" t-value="total_dr + line.debit"/>
+                                    <t t-set="total_cr" t-value="total_cr + line.credit"/>
+                                    <tr>
+                                        <td><span t-field="line.date"/></td>
+                                        <td><span t-field="line.description"/></td>
+                                        <td><span t-field="line.reference"/></td>
+                                        <td class="text-end"><span t-field="line.debit" t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/></td>
+                                        <td class="text-end"><span t-field="line.credit" t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/></td>
+                                        <td class="text-end"><strong><span t-esc="running_bal" t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/></strong></td>
+                                    </tr>
+                                </t>
+                                <tr class="table-secondary">
+                                    <td colspan="3" class="text-end"><strong>Totals:</strong></td>
+                                    <td class="text-end"><strong><span t-esc="total_dr" t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/></strong></td>
+                                    <td class="text-end"><strong><span t-esc="total_cr" t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/></strong></td>
+                                    <td class="text-end"><strong><span t-esc="running_bal" t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/></strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                        <div class="row mt-4">
+                            <div class="col-12 text-end">
+                                <h5>Current Outstanding Balance: <strong><span t-esc="running_bal" t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/></strong></h5>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <!-- Adding action for student ledger from student model -->
+    <record id="action_report_student_ledger_student" model="ir.actions.report">
+        <field name="name">Student Ledger Report</field>
+        <field name="model">school.student</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">school_management.report_student_ledger_doc</field>
+        <field name="report_file">school_management.report_student_ledger_doc</field>
+        <field name="binding_model_id" ref="model_school_student"/>
+    </record>
+</odoo>

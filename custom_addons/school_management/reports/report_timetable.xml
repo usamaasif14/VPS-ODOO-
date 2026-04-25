@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_timetable_doc">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2 class="text-center mt-4 mb-4">Class Timetable</h2>
+                        
+                        <div class="text-center mb-4">
+                            <h4>Class: <span t-field="o.name"/></h4>
+                            <p>Academic Year: <span t-field="o.academic_year"/></p>
+                        </div>
+                        
+                        <!-- Getting unique days and periods could be complex in QWeb, so we usually group by day -->
+                        <t t-set="timetable_records" t-value="env['school.timetable'].search([('class_id', '=', o.id), ('active', '=', True)], order='day, period_number')"/>
+                        
+                        <table class="table table-bordered table-sm text-center">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Day</th>
+                                    <th>Period 1</th>
+                                    <th>Period 2</th>
+                                    <th>Period 3</th>
+                                    <th>Period 4</th>
+                                    <th>Period 5</th>
+                                    <th>Period 6</th>
+                                    <th>Period 7</th>
+                                    <th>Period 8</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-set="days" t-value="['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']"/>
+                                <t t-foreach="days" t-as="day">
+                                    <t t-set="day_records" t-value="timetable_records.filtered(lambda r: r.day == day)"/>
+                                    <tr t-if="day_records">
+                                        <th class="align-middle text-capitalize"><span t-esc="day"/></th>
+                                        <t t-foreach="range(1, 9)" t-as="period">
+                                            <t t-set="period_rec" t-value="day_records.filtered(lambda r: r.period_number == period)"/>
+                                            <td style="width: 11%; vertical-align: middle; padding: 5px;">
+                                                <t t-if="period_rec">
+                                                    <div style="font-size: 11px; font-weight: bold;"><span t-field="period_rec[0].subject_id.name"/></div>
+                                                    <div style="font-size: 10px; color: #555;"><span t-field="period_rec[0].teacher_id.name"/></div>
+                                                    <div style="font-size: 9px; color: #777;"><span t-field="period_rec[0].time_from_char"/> - <span t-field="period_rec[0].time_to_char"/></div>
+                                                </t>
+                                                <t t-else="">
+                                                    <span style="color: #ccc;">-</span>
+                                                </t>
+                                            </td>
+                                        </t>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <record id="paperformat_school_timetable" model="report.paperformat">
+        <field name="name">School Timetable Landscape</field>
+        <field name="default" eval="False"/>
+        <field name="format">A4</field>
+        <field name="page_height">0</field>
+        <field name="page_width">0</field>
+        <field name="orientation">Landscape</field>
+        <field name="margin_top">20</field>
+        <field name="margin_bottom">15</field>
+        <field name="margin_left">7</field>
+        <field name="margin_right">7</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">10</field>
+        <field name="dpi">90</field>
+        <field name="css_margins" eval="True"/>
+    </record>
+    
+    <record id="action_report_class_timetable" model="ir.actions.report">
+        <field name="name">Class Timetable</field>
+        <field name="model">school.class</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">school_management.report_timetable_doc</field>
+        <field name="report_file">school_management.report_timetable_doc</field>
+        <field name="binding_model_id" ref="model_school_class"/>
+        <field name="paperformat_id" ref="school_management.paperformat_school_timetable"/>
+    </record>
+</odoo>

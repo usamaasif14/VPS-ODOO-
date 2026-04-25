@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_school_result_wizard_form" model="ir.ui.view">
+            <field name="name">school.result.wizard.form</field>
+            <field name="model">school.result.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Generate Result Sheets">
+                    <group>
+                        <field name="exam_id"/>
+                        <field name="class_id"/>
+                        <field name="section_id"/>
+                    </group>
+                    <footer>
+                        <button name="action_generate_result_sheets" type="object" string="Generate" class="btn-primary"/>
+                        <button special="cancel" string="Cancel" class="btn-secondary"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_school_result_wizard" model="ir.actions.act_window">
+            <field name="name">Generate Result Sheets</field>
+            <field name="res_model">school.result.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+    </data>
+</odoo>

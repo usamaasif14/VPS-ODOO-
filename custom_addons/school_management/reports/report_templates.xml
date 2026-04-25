@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Paper Format suitable for A5/A4 depending on need -->
+        <record id="paperformat_school_invoice" model="report.paperformat">
+            <field name="name">School Invoice A5</field>
+            <field name="default" eval="True"/>
+            <field name="format">A5</field>
+            <field name="page_height">0</field>
+            <field name="page_width">0</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">15</field>
+            <field name="margin_bottom">15</field>
+            <field name="margin_left">7</field>
+            <field name="margin_right">7</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">10</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <!-- Report Actions -->
+        <record id="action_report_fee_invoice" model="ir.actions.report">
+            <field name="name">Fee Invoice / Receipt</field>
+            <field name="model">school.fee.invoice</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">school_management.report_fee_invoice_doc</field>
+            <field name="report_file">school_management.report_fee_invoice_doc</field>
+            <field name="print_report_name">'Fee_%s' % (object.name)</field>
+            <field name="binding_model_id" ref="model_school_fee_invoice"/>
+            <field name="paperformat_id" ref="school_management.paperformat_school_invoice"/>
+        </record>
+
+        <record id="action_report_student_profile" model="ir.actions.report">
+            <field name="name">Student Profile</field>
+            <field name="model">school.student</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">school_management.report_student_profile_doc</field>
+            <field name="report_file">school_management.report_student_profile_doc</field>
+            <field name="print_report_name">'Profile_%s' % (object.name)</field>
+            <field name="binding_model_id" ref="model_school_student"/>
+        </record>
+
+        <record id="action_report_fee_structure" model="ir.actions.report">
+            <field name="name">Fee Structure</field>
+            <field name="model">school.fee.structure</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">school_management.report_fee_structure_doc</field>
+            <field name="report_file">school_management.report_fee_structure_doc</field>
+            <field name="binding_model_id" ref="model_school_fee_structure"/>
+        </record>
+
+        <record id="action_report_result_card" model="ir.actions.report">
+            <field name="name">Result Card</field>
+            <field name="model">school.result</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">school_management.report_result_card_doc</field>
+            <field name="report_file">school_management.report_result_card_doc</field>
+            <field name="binding_model_id" ref="model_school_result"/>
+        </record>
+
+    </data>
+</odoo>

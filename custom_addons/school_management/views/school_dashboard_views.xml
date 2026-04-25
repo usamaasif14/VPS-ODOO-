@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_school_dashboard_form" model="ir.ui.view">
+            <field name="name">school.dashboard.form</field>
+            <field name="model">school.dashboard</field>
+            <field name="arch" type="xml">
+                <form string="Dashboard">
+                    <sheet>
+                        <div class="row style_dashboard">
+                            <div class="col-md-3">
+                                <div class="card text-white bg-primary mb-3">
+                                    <div class="card-header">Total Students</div>
+                                    <div class="card-body">
+                                        <h5 class="card-title">Active Students</h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card text-white bg-success mb-3">
+                                    <div class="card-header">Teachers</div>
+                                    <div class="card-body">
+                                        <h5 class="card-title">Staff Members</h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card text-white bg-danger mb-3">
+                                    <div class="card-header">Fee Dues</div>
+                                    <div class="card-body">
+                                        <h5 class="card-title">Outstanding Amount</h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card text-white bg-warning mb-3">
+                                    <div class="card-header">Absentees</div>
+                                    <div class="card-body">
+                                        <h5 class="card-title">Today's Absent Students</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_school_dashboard" model="ir.actions.act_window">
+            <field name="name">Dashboard</field>
+            <field name="res_model">school.dashboard</field>
+            <field name="view_mode">form</field>
+        </record>
+    </data>
+</odoo>

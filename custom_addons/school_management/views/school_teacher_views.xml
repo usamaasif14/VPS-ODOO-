@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Teacher List -->
+        <record id="view_school_teacher_list" model="ir.ui.view">
+            <field name="name">school.teacher.list</field>
+            <field name="model">school.teacher</field>
+            <field name="arch" type="xml">
+                <list string="Teachers" decoration-danger="state == 'resigned'" decoration-muted="state == 'inactive'">
+                    <field name="employee_code"/>
+                    <field name="image" widget="image" optional="hide" string="Photo" class="o_image_24_cover"/>
+                    <field name="name"/>
+                    <field name="gender"/>
+                    <field name="designation"/>
+                    <field name="mobile"/>
+                    <field name="email"/>
+                    <field name="joining_date"/>
+                    <field name="state" widget="badge"
+                           decoration-success="state == 'active'"
+                           decoration-warning="state == 'inactive'"
+                           decoration-danger="state == 'resigned'"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- Teacher Form -->
+        <record id="view_school_teacher_form" model="ir.ui.view">
+            <field name="name">school.teacher.form</field>
+            <field name="model">school.teacher</field>
+            <field name="arch" type="xml">
+                <form string="Teacher">
+                    <header>
+                        <button name="action_view_timetable" type="object"
+                                string="View Timetable" class="btn-secondary"/>
+                        <field name="state" widget="statusbar"
+                               statusbar_visible="active,inactive,resigned"/>
+                    </header>
+                    <sheet>
+                        <field name="image" widget="image" class="oe_avatar"/>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" placeholder="Teacher Name"/>
+                            </h1>
+                            <h2>
+                                <field name="employee_code" readonly="1"/>
+                            </h2>
+                        </div>
+                        <group>
+                            <group string="Personal Info">
+                                <field name="gender"/>
+                                <field name="date_of_birth"/>
+                                <field name="age"/>
+                                <field name="cnic"/>
+                                <field name="blood_group" invisible="1"/>
+                                <field name="religion"/>
+                            </group>
+                            <group string="Contact Info">
+                                <field name="phone"/>
+                                <field name="mobile"/>
+                                <field name="whatsapp_number"/>
+                                <field name="email" widget="email"/>
+                                <field name="address"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group string="Professional Info">
+                                <field name="designation"/>
+                                <field name="department"/>
+                                <field name="qualification"/>
+                                <field name="specialization"/>
+                                <field name="experience_years"/>
+                                <field name="joining_date"/>
+                            </group>
+                            <group string="Salary">
+                                <field name="salary"/>
+                                <field name="active"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Subjects">
+                                <field name="subject_ids" widget="many2many_tags"/>
+                            </page>
+                            <page string="Classes Assigned">
+                                <field name="class_ids" widget="many2many_tags"/>
+                            </page>
+                            <page string="Timetable">
+                                <field name="timetable_ids">
+                                    <list>
+                                        <field name="day"/>
+                                        <field name="period_number"/>
+                                        <field name="time_from_char" string="From"/>
+                                        <field name="time_to_char" string="To"/>
+                                        <field name="class_id"/>
+                                        <field name="section_id"/>
+                                        <field name="subject_id"/>
+                                        <field name="room"/>
+                                    </list>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <chatter/>
+                </form>
+            </field>
+        </record>
+
+        <!-- Teacher Kanban -->
+        <record id="view_school_teacher_kanban" model="ir.ui.view">
+            <field name="name">school.teacher.kanban</field>
+            <field name="model">school.teacher</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_mobile">
+                    <field name="name"/>
+                    <field name="image"/>
+                    <field name="employee_code"/>
+                    <field name="designation"/>
+                    <field name="mobile"/>
+                    <field name="state"/>
+                    <templates>
+                        <t t-name="card">
+                            <div class="oe_kanban_global_click d-flex align-items-center">
+                                <img t-att-src="kanban_image('school.teacher', 'image', record.id.raw_value)"
+                                     class="o_kanban_image rounded-circle me-3" style="width:48px;height:48px;object-fit:cover;" alt="Photo"/>
+                                <div>
+                                    <strong><field name="name"/></strong><br/>
+                                    <span class="text-muted"><field name="designation"/></span><br/>
+                                    <span><field name="mobile"/></span>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <!-- Teacher Search -->
+        <record id="view_school_teacher_search" model="ir.ui.view">
+            <field name="name">school.teacher.search</field>
+            <field name="model">school.teacher</field>
+            <field name="arch" type="xml">
+                <search string="Search Teachers">
+                    <field name="name"/>
+                    <field name="employee_code"/>
+                    <field name="mobile"/>
+                    <field name="designation"/>
+                    <filter string="Active" name="filter_active" domain="[('state','=','active')]"/>
+                    <filter string="Inactive" name="filter_inactive" domain="[('state','=','inactive')]"/>
+                    <filter string="Resigned" name="filter_resigned" domain="[('state','=','resigned')]"/>
+                    <filter string="Gender" name="by_gender" context="{'group_by':'gender'}"/>
+                    <filter string="State" name="by_state" context="{'group_by':'state'}"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_school_teacher" model="ir.actions.act_window">
+            <field name="name">Teachers</field>
+            <field name="res_model">school.teacher</field>
+            <field name="view_mode">list,kanban,form</field>
+            <field name="search_view_id" ref="view_school_teacher_search"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">Add your first teacher!</p>
+            </field>
+        </record>
+    </data>
+</odoo>

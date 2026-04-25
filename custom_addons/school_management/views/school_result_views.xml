@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_school_result_list" model="ir.ui.view">
+            <field name="name">school.result.list</field>
+            <field name="model">school.result</field>
+            <field name="arch" type="xml">
+                <list string="Results" decoration-danger="result_status == 'fail'" decoration-success="result_status == 'pass'">
+                    <field name="exam_id"/>
+                    <field name="student_id"/>
+                    <field name="class_id"/>
+                    <field name="roll_number"/>
+                    <field name="total_marks_obtained"/>
+                    <field name="total_max_marks"/>
+                    <field name="percentage"/>
+                    <field name="grade"/>
+                    <field name="result_status" widget="badge" decoration-danger="result_status == 'fail'" decoration-success="result_status == 'pass'"/>
+                    <field name="state"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_school_result_form" model="ir.ui.view">
+            <field name="name">school.result.form</field>
+            <field name="model">school.result</field>
+            <field name="arch" type="xml">
+                <form string="Student Result">
+                    <header>
+                        <button name="action_publish" type="object" string="Publish Result" class="btn-primary" invisible="state != 'draft'"/>
+                        <button name="action_print_result_card" type="object" string="Print Result Card" class="btn-secondary"/>
+                        <button name="action_send_whatsapp" type="object" string="Send via WhatsApp" class="btn-warning"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="exam_id" readonly="state != 'draft'"/>
+                                <field name="student_id" readonly="state != 'draft'"/>
+                                <field name="class_id"/>
+                                <field name="section_id"/>
+                            </group>
+                            <group>
+                                <field name="roll_number"/>
+                                <field name="academic_year"/>
+                                <field name="position"/>
+                                <field name="result_status" widget="badge"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Subjects Marks">
+                                <field name="result_line_ids" readonly="state != 'draft'">
+                                    <list editable="bottom">
+                                        <field name="subject_id"/>
+                                        <field name="max_marks"/>
+                                        <field name="pass_marks"/>
+                                        <field name="marks_obtained"/>
+                                        <field name="is_pass"/>
+                                        <field name="grade"/>
+                                        <field name="remarks"/>
+                                    </list>
+                                </field>
+                            </page>
+                            <page string="Overview">
+                                <group>
+                                    <group>
+                                        <field name="total_marks_obtained"/>
+                                        <field name="total_max_marks"/>
+                                    </group>
+                                    <group>
+                                        <field name="percentage"/>
+                                        <field name="grade"/>
+                                    </group>
+                                </group>
+                                <field name="remarks" placeholder="General Remarks..."/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_school_result_search" model="ir.ui.view">
+            <field name="name">school.result.search</field>
+            <field name="model">school.result</field>
+            <field name="arch" type="xml">
+                <search string="Search Results">
+                    <field name="student_id"/>
+                    <field name="exam_id"/>
+                    <field name="class_id"/>
+                    <filter string="Exam" name="by_exam" context="{'group_by':'exam_id'}"/>
+                    <filter string="Class" name="by_class" context="{'group_by':'class_id'}"/>
+                    <filter string="Status" name="by_status" context="{'group_by':'result_status'}"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_school_result" model="ir.actions.act_window">
+            <field name="name">Results</field>
+            <field name="res_model">school.result</field>
+            <field name="view_mode">list,form</field>
+            <field name="search_view_id" ref="view_school_result_search"/>
+            <field name="context">{'search_default_by_exam': 1, 'search_default_by_class': 1}</field>
+        </record>
+    </data>
+</odoo>

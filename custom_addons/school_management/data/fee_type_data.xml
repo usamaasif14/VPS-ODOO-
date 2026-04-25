@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="fee_type_admission" model="school.fee.type">
+            <field name="name">Admission Fee</field>
+            <field name="code">ADMFEE</field>
+            <field name="billing_type">one_time</field>
+            <field name="sequence">1</field>
+        </record>
+        <record id="fee_type_tuition" model="school.fee.type">
+            <field name="name">Tuition Fee</field>
+            <field name="code">TUTION</field>
+            <field name="billing_type">monthly</field>
+            <field name="sequence">2</field>
+        </record>
+        <record id="fee_type_annual" model="school.fee.type">
+            <field name="name">Annual Charges</field>
+            <field name="code">ANNUAL</field>
+            <field name="billing_type">annual</field>
+            <field name="sequence">3</field>
+        </record>
+        <record id="fee_type_exam" model="school.fee.type">
+            <field name="name">Exam Fee</field>
+            <field name="code">EXAMFEE</field>
+            <field name="billing_type">exam</field>
+            <field name="sequence">4</field>
+        </record>
+        <record id="fee_type_stationery" model="school.fee.type">
+            <field name="name">Stationery / Books</field>
+            <field name="code">STATRY</field>
+            <field name="billing_type">annual</field>
+            <field name="sequence">5</field>
+        </record>
+        <record id="fee_type_transport" model="school.fee.type">
+            <field name="name">Transport Fee</field>
+            <field name="code">TRANS</field>
+            <field name="billing_type">monthly</field>
+            <field name="sequence">6</field>
+        </record>
+        <record id="fee_type_sports" model="school.fee.type">
+            <field name="name">Sports Fee</field>
+            <field name="code">SPORTS</field>
+            <field name="billing_type">annual</field>
+            <field name="sequence">7</field>
+        </record>
+        <record id="fee_type_lab" model="school.fee.type">
+            <field name="name">Lab / Computer Fee</field>
+            <field name="code">LAB</field>
+            <field name="billing_type">monthly</field>
+            <field name="sequence">8</field>
+        </record>
+        <record id="fee_type_uniform" model="school.fee.type">
+            <field name="name">Uniform Fee</field>
+            <field name="code">UNIFRM</field>
+            <field name="billing_type">one_time</field>
+            <field name="sequence">9</field>
+        </record>
+        <record id="fee_type_late" model="school.fee.type">
+            <field name="name">Late Fee</field>
+            <field name="code">LATEFEE</field>
+            <field name="billing_type">monthly</field>
+            <field name="sequence">10</field>
+        </record>
+        <record id="fee_type_library" model="school.fee.type">
+            <field name="name">Library Fee</field>
+            <field name="code">LIBRARY</field>
+            <field name="billing_type">annual</field>
+            <field name="sequence">11</field>
+        </record>
+        <record id="fee_type_hostel" model="school.fee.type">
+            <field name="name">Hostel Fee</field>
+            <field name="code">HOSTEL</field>
+            <field name="billing_type">monthly</field>
+            <field name="sequence">12</field>
+        </record>
+    </data>
+</odoo>

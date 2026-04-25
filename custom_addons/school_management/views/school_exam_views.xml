@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_school_exam_list" model="ir.ui.view">
+            <field name="name">school.exam.list</field>
+            <field name="model">school.exam</field>
+            <field name="arch" type="xml">
+                <list string="Exams">
+                    <field name="name"/>
+                    <field name="exam_type"/>
+                    <field name="academic_year"/>
+                    <field name="date_from"/>
+                    <field name="date_to"/>
+                    <field name="state" widget="badge" decoration-info="state == 'draft'" decoration-success="state == 'completed'"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_school_exam_form" model="ir.ui.view">
+            <field name="name">school.exam.form</field>
+            <field name="model">school.exam</field>
+            <field name="arch" type="xml">
+                <form string="Exam">
+                    <header>
+                        <button name="action_publish" type="object" string="Publish" class="btn-primary" invisible="state != 'draft'"/>
+                        <button name="action_complete" type="object" string="Mark as Completed" class="btn-success" invisible="state not in ('published', 'ongoing')"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="action_view_results" type="object" class="oe_stat_button" icon="fa-trophy">
+                                <field name="result_count" widget="statinfo" string="Results"/>
+                            </button>
+                        </div>
+                        <div class="oe_title">
+                            <h1><field name="name" placeholder="Exam Name"/></h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="exam_type"/>
+                                <field name="academic_year"/>
+                            </group>
+                            <group>
+                                <field name="date_from"/>
+                                <field name="date_to"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Schedule">
+                                <field name="exam_schedule_ids">
+                                    <list editable="bottom">
+                                        <field name="class_id"/>
+                                        <field name="subject_id"/>
+                                        <field name="date"/>
+                                        <field name="time_from" widget="float_time"/>
+                                        <field name="time_to" widget="float_time"/>
+                                        <field name="total_marks"/>
+                                        <field name="pass_marks"/>
+                                        <field name="room"/>
+                                        <field name="invigilator_id"/>
+                                    </list>
+                                </field>
+                            </page>
+                            <page string="Classes">
+                                <field name="class_ids" widget="many2many_tags"/>
+                            </page>
+                            <page string="Description">
+                                <field name="description"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <chatter/>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_school_exam" model="ir.actions.act_window">
+            <field name="name">Exams</field>
+            <field name="res_model">school.exam</field>
+            <field name="view_mode">list,form</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_school_timetable_list" model="ir.ui.view">
+            <field name="name">school.timetable.list</field>
+            <field name="model">school.timetable</field>
+            <field name="arch" type="xml">
+                <list string="Timetable" editable="bottom">
+                    <field name="class_id"/>
+                    <field name="section_id"/>
+                    <field name="day"/>
+                    <field name="period_number"/>
+                    <field name="subject_id"/>
+                    <field name="teacher_id"/>
+                    <field name="time_from" widget="float_time"/>
+                    <field name="time_to" widget="float_time"/>
+                    <field name="room"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_school_timetable_search" model="ir.ui.view">
+            <field name="name">school.timetable.search</field>
+            <field name="model">school.timetable</field>
+            <field name="arch" type="xml">
+                <search string="Search Timetable">
+                    <field name="class_id"/>
+                    <field name="teacher_id"/>
+                    <field name="subject_id"/>
+                    <filter string="Class" name="by_class" context="{'group_by':'class_id'}"/>
+                    <filter string="Teacher" name="by_teacher" context="{'group_by':'teacher_id'}"/>
+                    <filter string="Day" name="by_day" context="{'group_by':'day'}"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_school_timetable" model="ir.actions.act_window">
+            <field name="name">Timetable</field>
+            <field name="res_model">school.timetable</field>
+            <field name="view_mode">list</field>
+            <field name="search_view_id" ref="view_school_timetable_search"/>
+            <field name="context">{'search_default_by_class': 1, 'search_default_by_day': 1}</field>
+        </record>
+    </data>
+</odoo>

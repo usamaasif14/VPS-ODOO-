@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_result_card_doc">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.basic_layout">
+                    <div class="page" style="margin-top: 30px;">
+                        
+                        <div class="row align-items-center mb-4 border-bottom pb-3">
+                            <div class="col-2">
+                                <t t-if="res_company.logo">
+                                    <img t-att-src="image_data_uri(res_company.logo)" alt="School Logo" style="max-height: 80px;"/>
+                                </t>
+                            </div>
+                            <div class="col-8 text-center bg-light p-2 rounded">
+                                <h2 class="mb-1">Student Result Card</h2>
+                                <h4 class="text-muted"><span t-field="o.exam_id.name"/></h4>
+                            </div>
+                            <div class="col-2 text-end">
+                                <t t-if="o.student_id.image">
+                                    <img t-att-src="image_data_uri(o.student_id.image)" alt="Student Photo" style="max-height: 80px; width: auto; border: 1px solid #ccc;"/>
+                                </t>
+                            </div>
+                        </div>
+
+                        <div class="row mb-4">
+                            <div class="col-6">
+                                <table class="table table-sm table-borderless">
+                                    <tr><td style="width: 35%"><strong>Student Name:</strong></td><td><span t-field="o.student_id.name"/></td></tr>
+                                    <tr><td><strong>Father's Name:</strong></td><td><span t-field="o.student_id.father_name"/></td></tr>
+                                    <tr><td><strong>Roll Number:</strong></td><td><span t-field="o.roll_number"/></td></tr>
+                                </table>
+                            </div>
+                            <div class="col-6">
+                                <table class="table table-sm table-borderless">
+                                    <tr><td style="width: 35%"><strong>Class:</strong></td><td><span t-field="o.class_id.name"/></td></tr>
+                                    <tr><td><strong>Section:</strong></td><td><span t-field="o.section_id.name"/></td></tr>
+                                    <tr><td><strong>Academic Year:</strong></td><td><span t-field="o.academic_year"/></td></tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        <table class="table table-bordered table-sm text-center">
+                            <thead class="table-secondary">
+                                <tr>
+                                    <th class="text-start">Subject</th>
+                                    <th>Max Marks</th>
+                                    <th>Pass Marks</th>
+                                    <th>Marks Obtained</th>
+                                    <th>Grade</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="o.result_line_ids" t-as="line">
+                                    <tr>
+                                        <td class="text-start"><span t-field="line.subject_id.name"/></td>
+                                        <td><span t-field="line.max_marks"/></td>
+                                        <td><span t-field="line.pass_marks"/></td>
+                                        <td><span t-field="line.marks_obtained"/></td>
+                                        <td><strong><span t-field="line.grade"/></strong></td>
+                                        <td>
+                                            <span t-esc="line.is_pass and 'PASS' or 'FAIL'" t-att-style="line.is_pass and 'color: green;' or 'color: red; font-weight:bold;'"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+
+                        <div class="row mt-4">
+                            <div class="col-6 offset-6">
+                                <table class="table table-bordered table-sm bg-light">
+                                    <tr>
+                                        <td><strong>Total Marks</strong></td>
+                                        <td class="text-end"><span t-field="o.total_max_marks"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Obtained Marks</strong></td>
+                                        <td class="text-end"><strong><span t-field="o.total_marks_obtained"/></strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Percentage</strong></td>
+                                        <td class="text-end"><span t-esc="'%.2f' % o.percentage"/>%</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Overall Grade</strong></td>
+                                        <td class="text-end"><strong><span t-field="o.grade"/></strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Final Result</strong></td>
+                                        <td class="text-end">
+                                            <span t-esc="o.result_status == 'pass' and 'PASS' or 'FAIL'" t-att-style="o.result_status == 'pass' and 'color: green; font-weight: bold; font-size: 1.2em;' or 'color: red; font-weight: bold; font-size: 1.2em;'"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="row mt-4 mb-5">
+                            <div class="col-12">
+                                <strong>Remarks:</strong>
+                                <p class="border-bottom border-dark pb-1"><span t-field="o.remarks"/></p>
+                            </div>
+                        </div>
+
+                        <div class="row mt-5 pt-5 text-center">
+                            <div class="col-4">
+                                <hr class="border-dark"/>
+                                <strong>Class Teacher</strong>
+                            </div>
+                            <div class="col-4"></div>
+                            <div class="col-4">
+                                <hr class="border-dark"/>
+                                <strong>Principal Signature</strong>
+                            </div>
+                        </div>
+
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

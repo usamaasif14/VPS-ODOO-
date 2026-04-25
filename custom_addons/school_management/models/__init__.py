@@ -1,0 +1,17 @@
+from . import (
+    school_class,
+    school_section,
+    school_subject,
+    school_teacher,
+    school_student,
+    school_fee_structure,
+    school_fee_invoice,
+    school_student_ledger,
+    school_attendance,
+    school_timetable,
+    school_exam,
+    school_result,
+    school_homework,
+    school_whatsapp,
+    school_dashboard,
+)

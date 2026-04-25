@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Root Menu -->
+        <menuitem id="menu_school_root" name="School Management" web_icon="school_management,static/description/icon.png" sequence="10"/>
+
+        <!-- Dashboard -->
+        <menuitem id="menu_school_dashboard" name="Dashboard" parent="menu_school_root" action="action_school_student" sequence="1"/>
+
+        <!-- Academics -->
+        <menuitem id="menu_school_academics" name="Academics" parent="menu_school_root" sequence="2"/>
+        <menuitem id="menu_school_class" name="Classes" parent="menu_school_academics" action="action_school_class" sequence="1"/>
+        <menuitem id="menu_school_section" name="Sections" parent="menu_school_academics" action="action_school_section" sequence="2"/>
+        <menuitem id="menu_school_subject" name="Subjects" parent="menu_school_academics" action="action_school_subject" sequence="3"/>
+        <menuitem id="menu_school_timetable" name="Timetable" parent="menu_school_academics" action="action_school_timetable" sequence="4"/>
+        <menuitem id="menu_school_homework" name="Homework" parent="menu_school_academics" action="action_school_homework" sequence="5"/>
+
+        <!-- Students -->
+        <menuitem id="menu_school_students" name="Students" parent="menu_school_root" sequence="3"/>
+        <menuitem id="menu_school_student_info" name="Student Details" parent="menu_school_students" action="action_school_student" sequence="1"/>
+        <menuitem id="menu_school_admission" name="New Admission" parent="menu_school_students" action="action_school_student_new" sequence="2"/>
+        <menuitem id="menu_school_attendance" name="Attendance" parent="menu_school_students" action="action_school_attendance" sequence="3"/>
+        <menuitem id="menu_school_attendance_rep" name="Attendance Report" parent="menu_school_students" action="action_school_attendance_wizard_standalone" sequence="4"/>
+
+        <!-- Teachers -->
+        <menuitem id="menu_school_teachers" name="Teachers" parent="menu_school_root" sequence="4"/>
+        <menuitem id="menu_school_teacher_info" name="Teacher Details" parent="menu_school_teachers" action="action_school_teacher" sequence="1"/>
+
+        <!-- Exams -->
+        <menuitem id="menu_school_exams" name="Examinations" parent="menu_school_root" sequence="5"/>
+        <menuitem id="menu_school_exam_list" name="Exams" parent="menu_school_exams" action="action_school_exam" sequence="1"/>
+        <menuitem id="menu_school_exam_result" name="Results" parent="menu_school_exams" action="action_school_result" sequence="2"/>
+        <menuitem id="menu_school_exam_wiz" name="Generate Results" parent="menu_school_exams" action="action_school_result_wizard" sequence="3"/>
+
+        <!-- Fees -->
+        <menuitem id="menu_school_fees" name="Accounting / Fees" parent="menu_school_root" sequence="6"/>
+        <menuitem id="menu_school_fee_invoice" name="Fee Invoices" parent="menu_school_fees" action="action_school_fee_invoice" sequence="1"/>
+        <menuitem id="menu_school_student_ledger" name="Student Ledger" parent="menu_school_fees" action="action_school_student_ledger" sequence="2"/>
+        <menuitem id="menu_school_fee_generate" name="Generate Monthly Fee" parent="menu_school_fees" action="action_school_generate_fee" sequence="3"/>
+
+        <!-- WhatsApp -->
+        <menuitem id="menu_school_whatsapp" name="WhatsApp" parent="menu_school_root" sequence="7"/>
+        <menuitem id="menu_school_whatsapp_send" name="Send Message" parent="menu_school_whatsapp" action="action_school_whatsapp_wizard" sequence="1"/>
+        <menuitem id="menu_school_whatsapp_log" name="Message Logs" parent="menu_school_whatsapp" action="action_school_whatsapp_log" sequence="2"/>
+
+        <!-- Configuration -->
+        <menuitem id="menu_school_config" name="Configuration" parent="menu_school_root" sequence="100"/>
+        <menuitem id="menu_school_fee_type" name="Fee Types" parent="menu_school_config" action="action_school_fee_type" sequence="1"/>
+        <menuitem id="menu_school_fee_structure" name="Fee Structures" parent="menu_school_config" action="action_school_fee_structure" sequence="2"/>
+        <menuitem id="menu_school_whatsapp_config" name="WhatsApp Settings" parent="menu_school_config" action="action_school_whatsapp_config" sequence="3"/>
+    </data>
+</odoo>

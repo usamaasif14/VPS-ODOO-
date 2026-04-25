@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Class List View -->
+        <record id="view_school_class_list" model="ir.ui.view">
+            <field name="name">school.class.list</field>
+            <field name="model">school.class</field>
+            <field name="arch" type="xml">
+                <list string="Classes" decoration-muted="not active">
+                    <field name="sequence" widget="handle"/>
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="level"/>
+                    <field name="teacher_id"/>
+                    <field name="section_count" string="Sections"/>
+                    <field name="student_count" string="Students"/>
+                    <field name="monthly_fee" string="Monthly Fee"/>
+                    <field name="academic_year"/>
+                    <field name="active" invisible="1"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- Class Form View -->
+        <record id="view_school_class_form" model="ir.ui.view">
+            <field name="name">school.class.form</field>
+            <field name="model">school.class</field>
+            <field name="arch" type="xml">
+                <form string="Class">
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="action_view_sections" type="object"
+                                    class="oe_stat_button" icon="fa-sitemap">
+                                <field name="section_count" widget="statinfo" string="Sections"/>
+                            </button>
+                            <button name="action_view_students" type="object"
+                                    class="oe_stat_button" icon="fa-users">
+                                <field name="student_count" widget="statinfo" string="Students"/>
+                            </button>
+                        </div>
+                        <div class="oe_title">
+                            <h1><field name="name" placeholder="Class Name"/></h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="code"/>
+                                <field name="level"/>
+                                <field name="academic_year"/>
+                                <field name="teacher_id"/>
+                                <field name="active"/>
+                            </group>
+                            <group>
+                                <field name="monthly_fee"/>
+                                <field name="admission_fee"/>
+                                <field name="annual_charges"/>
+                                <field name="color" widget="color_picker"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Sections">
+                                <field name="section_ids">
+                                    <list editable="bottom">
+                                        <field name="name"/>
+                                        <field name="code"/>
+                                        <field name="teacher_id"/>
+                                        <field name="capacity"/>
+                                        <field name="room_number"/>
+                                        <field name="student_count" string="Students"/>
+                                    </list>
+                                </field>
+                            </page>
+                            <page string="Subjects">
+                                <field name="subject_ids" widget="many2many_tags"/>
+                            </page>
+                            <page string="Description">
+                                <field name="description" placeholder="Additional notes..."/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Class Kanban View -->
+        <record id="view_school_class_kanban" model="ir.ui.view">
+            <field name="name">school.class.kanban</field>
+            <field name="model">school.class</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_mobile" default_group_by="level">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="student_count"/>
+                    <field name="section_count"/>
+                    <field name="teacher_id"/>
+                    <field name="monthly_fee"/>
+                    <field name="color"/>
+                    <templates>
+                        <t t-name="card">
+                            <div t-attf-class="oe_kanban_color_#{record.color.raw_value} oe_kanban_global_click">
+                                <div class="o_kanban_record_top">
+                                    <div class="o_kanban_record_headings">
+                                        <strong class="o_kanban_record_title">
+                                            <field name="name"/>
+                                        </strong>
+                                        <span class="o_kanban_record_subtitle">
+                                            Code: <field name="code"/>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="o_kanban_record_body">
+                                    <div>Teacher: <field name="teacher_id"/></div>
+                                    <div>Monthly Fee: <field name="monthly_fee"/></div>
+                                </div>
+                                <div class="o_kanban_record_bottom">
+                                    <div class="oe_kanban_bottom_left">
+                                        <span class="badge bg-primary">
+                                            <field name="student_count"/> Students
+                                        </span>
+                                    </div>
+                                    <div class="oe_kanban_bottom_right">
+                                        <span class="badge bg-secondary">
+                                            <field name="section_count"/> Sections
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <!-- Class Action -->
+        <record id="action_school_class" model="ir.actions.act_window">
+            <field name="name">Classes</field>
+            <field name="res_model">school.class</field>
+            <field name="view_mode">list,kanban,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create your first class!
+                </p>
+            </field>
+        </record>
+    </data>
+</odoo>

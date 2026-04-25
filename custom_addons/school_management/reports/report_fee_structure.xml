@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_fee_structure_doc">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2 class="text-center mt-4 mb-4">Fee Structure</h2>
+                        
+                        <div class="row mb-5">
+                            <div class="col-6">
+                                <h4><span t-field="o.name"/></h4>
+                                <strong>Class: </strong> <span t-field="o.class_id.name"/><br/>
+                                <strong>Academic Year: </strong> <span t-field="o.academic_year"/>
+                            </div>
+                        </div>
+
+                        <h4>Fee Details</h4>
+                        <table class="table table-bordered mt-3">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Fee Head</th>
+                                    <th>Billing Type</th>
+                                    <th class="text-end">Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="o.fee_line_ids" t-as="line">
+                                    <tr>
+                                        <td><span t-field="line.sequence"/></td>
+                                        <td>
+                                            <span t-field="line.name"/>
+                                            <span t-if="line.optional" class="badge rounded-pill text-bg-info ms-2">Optional</span>
+                                        </td>
+                                        <td class="text-capitalize"><span t-field="line.fee_type"/></td>
+                                        <td class="text-end"><span t-field="line.amount" t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/></td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+
+                        <div class="row mt-4">
+                            <div class="col-6 offset-6">
+                                <table class="table table-sm text-end bg-light p-2 rounded">
+                                    <tr>
+                                        <td><strong>Total Monthly Fee:</strong></td>
+                                        <td><h4><span t-field="o.total_monthly" t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/></h4></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Total Annual Charges:</strong></td>
+                                        <td><h4><span t-field="o.total_annual" t-options='{"widget": "monetary", "display_currency": user.company_id.currency_id}'/></h4></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <div t-if="o.description" class="mt-4">
+                            <strong>Note/Terms:</strong>
+                            <p><span t-field="o.description"/></p>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

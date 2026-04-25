@@ -1,0 +1,27 @@
+/* School Management Base Styles */
+
+.style_dashboard .card {
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+
+.style_dashboard .card:hover {
+    transform: translateY(-5px);
+}
+
+.style_dashboard .card-header {
+    font-weight: bold;
+    font-size: 1.1em;
+    border-bottom: none;
+    border-radius: 10px 10px 0 0;
+}
+
+.style_dashboard .card-body h5 {
+    font-size: 2.5em;
+    font-weight: 700;
+}
+
+o_kanban_view .o_kanban_record .rounded-circle {
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_school_attendance_list" model="ir.ui.view">
+            <field name="name">school.attendance.list</field>
+            <field name="model">school.attendance</field>
+            <field name="arch" type="xml">
+                <list string="Student Attendance" decoration-info="state == 'draft'" decoration-success="state == 'done'">
+                    <field name="name"/>
+                    <field name="date"/>
+                    <field name="class_id"/>
+                    <field name="section_id"/>
+                    <field name="teacher_id"/>
+                    <field name="present_count"/>
+                    <field name="absent_count"/>
+                    <field name="total_count"/>
+                    <field name="state" widget="badge" decoration-info="state == 'draft'" decoration-success="state == 'done'"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_school_attendance_form" model="ir.ui.view">
+            <field name="name">school.attendance.form</field>
+            <field name="model">school.attendance</field>
+            <field name="arch" type="xml">
+                <form string="Student Attendance">
+                    <header>
+                        <button name="action_load_students" type="object" string="Load Students" class="btn-primary" invisible="state != 'draft' or attendance_line_ids"/>
+                        <button name="action_submit" type="object" string="Submit" class="btn-success" invisible="state != 'draft' or not attendance_line_ids"/>
+                        <button name="action_send_absent_whatsapp" type="object" string="Notify Parents" class="btn-warning" invisible="state != 'done'"/>
+                        <button name="action_reset" type="object" string="Reset to Draft" class="btn-secondary" invisible="state == 'draft'"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1><field name="name" readonly="1"/></h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="date" readonly="state != 'draft'"/>
+                                <field name="class_id" readonly="state != 'draft'"/>
+                                <field name="section_id" readonly="state != 'draft'"/>
+                            </group>
+                            <group>
+                                <field name="teacher_id" readonly="state != 'draft'"/>
+                                <field name="subject_id" readonly="state != 'draft'"/>
+                            </group>
+                        </group>
+                        <group col="4">
+                            <field name="total_count"/>
+                            <field name="present_count"/>
+                            <field name="absent_count"/>
+                            <field name="late_count"/>
+                        </group>
+                        <notebook>
+                            <page string="Attendance Lines">
+                                <field name="attendance_line_ids" readonly="state != 'draft'">
+                                    <list editable="bottom">
+                                        <field name="roll_number" readonly="1"/>
+                                        <field name="student_id" readonly="1"/>
+                                        <field name="status" widget="selection"/>
+                                        <field name="remarks"/>
+                                    </list>
+                                </field>
+                            </page>
+                            <page string="Notes">
+                                <field name="notes" readonly="state != 'draft'"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <chatter/>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_school_attendance" model="ir.actions.act_window">
+            <field name="name">Daily Attendance</field>
+            <field name="res_model">school.attendance</field>
+            <field name="view_mode">list,form</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Student Sequence -->
+        <record id="seq_school_student" model="ir.sequence">
+            <field name="name">School Student Admission No</field>
+            <field name="code">school.student</field>
+            <field name="prefix">ADM/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+
+        <!-- Student GR Sequence -->
+        <record id="seq_school_student_gr" model="ir.sequence">
+            <field name="name">School Student GR Number</field>
+            <field name="code">school.student.gr</field>
+            <field name="prefix">GR/</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+
+        <!-- Teacher Sequence -->
+        <record id="seq_school_teacher" model="ir.sequence">
+            <field name="name">School Teacher Code</field>
+            <field name="code">school.teacher</field>
+            <field name="prefix">TCH/</field>
+            <field name="padding">4</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+
+        <!-- Fee Invoice Sequence -->
+        <record id="seq_school_fee_invoice" model="ir.sequence">
+            <field name="name">School Fee Invoice</field>
+            <field name="code">school.fee.invoice</field>
+            <field name="prefix">FEE/%(year)s/%(month)s/</field>
+            <field name="padding">4</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+
+        <!-- Fee Payment (Receipt) Sequence -->
+        <record id="seq_school_fee_payment" model="ir.sequence">
+            <field name="name">School Fee Receipt</field>
+            <field name="code">school.fee.payment</field>
+            <field name="prefix">RCP/%(year)s/%(month)s/</field>
+            <field name="padding">4</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+    </data>
+</odoo>

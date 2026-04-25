@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Fee Invoice List -->
+        <record id="view_school_fee_invoice_list" model="ir.ui.view">
+            <field name="name">school.fee.invoice.list</field>
+            <field name="model">school.fee.invoice</field>
+            <field name="arch" type="xml">
+                                <list string="Fee Invoices">
+                    <field name="name"/>
+                    <field name="student_id"/>
+                    <field name="roll_number" optional="show"/>
+                    <field name="class_id"/>
+                    <field name="section_id" optional="hide"/>
+                    <field name="fee_month"/>
+                    <field name="fee_year"/>
+                    <field name="date"/>
+                    <field name="due_date" optional="show"/>
+                    <field name="amount_total"/>
+                    <field name="amount_paid"/>
+                    <field name="amount_residual"/>
+                        <field name="state" widget="badge"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- Fee Invoice Form -->
+        <record id="view_school_fee_invoice_form" model="ir.ui.view">
+            <field name="name">school.fee.invoice.form</field>
+            <field name="model">school.fee.invoice</field>
+            <field name="arch" type="xml">
+                <form string="Fee Invoice">
+                    <header>
+                        <button name="action_post" type="object" string="Confirm Invoice"
+                                invisible="state != 'draft'" class="btn-primary"/>
+                        <button name="action_register_payment" type="object"
+                                string="Register Payment"
+                                invisible="state not in ('posted','partial')"
+                                class="btn-success"/>
+                        <button name="action_print_invoice" type="object"
+                                string="🖨 Print Invoice" class="btn-secondary"/>
+                        <button name="action_send_whatsapp" type="object"
+                                string="📱 Send WhatsApp"
+                                invisible="state == 'cancelled'"
+                                class="btn-warning"/>
+                        <button name="action_cancel" type="object" string="Cancel"
+                                invisible="state in ('paid','cancelled')" class="btn-danger"/>
+                        <button name="action_reset_draft" type="object" string="Reset to Draft"
+                                invisible="state != 'cancelled'" class="btn-secondary"/>
+                        <field name="state" widget="statusbar"
+                               statusbar_visible="draft,posted,partial,paid"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1><field name="name" readonly="1"/></h1>
+                        </div>
+                        <group>
+                            <group string="Student Info">
+                                <field name="student_id"/>
+                                <field name="class_id" readonly="1"/>
+                                <field name="section_id" readonly="1"/>
+                                <field name="roll_number" readonly="1"/>
+                            </group>
+                            <group string="Fee Period">
+                                <field name="fee_month"/>
+                                <field name="fee_year"/>
+                                <field name="academic_year"/>
+                                <field name="date"/>
+                                <field name="due_date"/>
+                            </group>
+                        </group>
+
+                        <!-- Invoice Lines -->
+                        <field name="invoice_line_ids" readonly="state != 'draft'">
+                            <list editable="bottom">
+                                <field name="sequence" widget="handle"/>
+                                <field name="fee_type_id"/>
+                                <field name="name"/>
+                                <field name="amount"/>
+                                <field name="concession" optional="show"/>
+                                <field name="net_amount" optional="show"/>
+                            </list>
+                        </field>
+
+                        <!-- Totals -->
+                        <group class="oe_subtotal_footer oe_right">
+                            <field name="concession_amount" string="Discount / Concession"/>
+                            <field name="late_fee" string="Late Fee"/>
+                            <field name="amount_total" string="Total Amount" readonly="1"/>
+                            <field name="amount_paid" string="Amount Paid" readonly="1"/>
+                            <field name="amount_residual" string="Balance Due" readonly="1"
+                                   class="oe_subtotal_footer_separator"/>
+                        </group>
+
+                        <group>
+                            <field name="notes" placeholder="Notes..."/>
+                        </group>
+
+                        <!-- Payments -->
+                        <notebook>
+                            <page string="Payments" name="payments">
+                                <field name="payment_ids" readonly="1">
+                                    <list>
+                                        <field name="name"/>
+                                        <field name="date"/>
+                                        <field name="amount"/>
+                                        <field name="payment_method"/>
+                                        <field name="bank_reference"/>
+                                        <field name="collected_by"/>
+                                        <field name="state" widget="badge"/>
+                                    </list>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <chatter/>
+                </form>
+            </field>
+        </record>
+
+        <!-- Fee Invoice Search -->
+        <record id="view_school_fee_invoice_search" model="ir.ui.view">
+            <field name="name">school.fee.invoice.search</field>
+            <field name="model">school.fee.invoice</field>
+            <field name="arch" type="xml">
+                <search string="Search Fee Invoices">
+                    <field name="name"/>
+                    <field name="student_id"/>
+                    <field name="class_id"/>
+                    <field name="roll_number"/>
+                    <field name="fee_month"/>
+                    <field name="fee_year"/>
+                    <filter string="Unpaid" name="unpaid" domain="[('state','=','posted')]"/>
+                    <filter string="Partially Paid" name="partial" domain="[('state','=','partial')]"/>
+                    <filter string="Paid" name="paid" domain="[('state','=','paid')]"/>
+                    <filter string="Draft" name="draft" domain="[('state','=','draft')]"/>
+                    <filter string="Student" name="by_student" context="{'group_by':'student_id'}"/>
+                    <filter string="Class" name="by_class" context="{'group_by':'class_id'}"/>
+                    <filter string="Month" name="by_month" context="{'group_by':'fee_month'}"/>
+                    <filter string="Status" name="by_state" context="{'group_by':'state'}"/>
+                </search>
+            </field>
+        </record>
+
+        <!-- Fee Invoice Action -->
+        <record id="action_school_fee_invoice" model="ir.actions.act_window">
+            <field name="name">Fee Invoices</field>
+            <field name="res_model">school.fee.invoice</field>
+            <field name="view_mode">list,form</field>
+            <field name="search_view_id" ref="view_school_fee_invoice_search"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">No fee invoices yet!</p>
+            </field>
+        </record>
+
+        <!-- Generate Fee Wizard Action -->
+        <record id="action_school_generate_fee" model="ir.actions.act_window">
+            <field name="name">Generate Monthly Fee</field>
+            <field name="res_model">school.generate.fee.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+    </data>
+</odoo>
